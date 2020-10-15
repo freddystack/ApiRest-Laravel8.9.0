@@ -46,12 +46,12 @@ Route::delete("test/{id}" ,  [TestController::class , 'deleteTest']); */
 
 Route::post('login' , [PassportController::class , 'login'] );
 
-  Route::post('register' , [PassportController::class , 'register'] );
+ 
 /* Route::middleware('auth:api')->group(function(){
     Route::get('user' ,[PassportController::class , 'details']);
     Route::apiResource('products' , ProductsController::class);
 }); */
-Route::get('products' , [ProductsController::class, 'index'] );
+
 
  
 Route::group(['prefix' => 'admin' , 'middleware' => [ 'jwt.verify' ,'admin.verify']] , function(){
@@ -59,10 +59,19 @@ Route::group(['prefix' => 'admin' , 'middleware' => [ 'jwt.verify' ,'admin.verif
      Route::get('users' , [PassportController::class , 'Users']);
      Route::delete('users/{id}' , [PassportController::class , 'DeleteUser']);
      Route::put('users/{id}' , [PassportController::class , 'UpdateUser']);
-   
+    Route::post('register' , [PassportController::class , 'register'] );
     Route::apiResource('products' , ProductsController::class );
 
      // PRODUCTS
-    
+});
+
+Route::group(['prefix' => 'reception', 'middleware' => ['jwt.verify', 'reception.verify']], function(){
+     Route::get('products' , [ProductsController::class, 'index'] );
+
+});
+
+Route::group(['prefix' => 'warehouse', 'middleware' => ['jwt.verify', 'warehouse.verify']], function(){
+    Route::get('products' , [ProductsController::class, 'index'] );
+    Route::post('products' , [ProductsController::class , 'store']);
 
 });

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AdminMiddleware
+class ReceptionMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,15 +17,13 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         $user = $request->get('user');
-     if( $user['roll'] != 'admin'){
-
+        if($user['roll'] != 'reception' ){
            return response()->json([
-               'success' => false,
-               'data' => 'No Authorizado'     //<--  ESTE MENSAJE SOLO APARACE SI NO SE CUMPLE LA CONDICION
+              'success' => false,
+               'data' => 'No estas autorizado para entrar'
            ], 401);
 
-     }
-     
+        }
 
         return $next($request);
     }

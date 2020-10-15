@@ -54,7 +54,7 @@ class PassportController extends Controller
                 }else{
                     return response()->json([
                         'success' => false,
-                        'data' => 'NO se ha podido guardar el usuario'
+                        'data' => 'NO se ha podido guardar el usuario error en elm servidor'
                     ], 500);
                 }
           
@@ -95,10 +95,11 @@ class PassportController extends Controller
 
             }else{
                 try {
+                    
                     if(!$token = JWTAuth::attempt($credentials)){
                         return response()->json([
                             'success' => false,
-                            'data' => 'UnAthorized'
+                            'data' => 'El correo o la contraseña no coinciden'
                         ], 401);
                     }
                 } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
